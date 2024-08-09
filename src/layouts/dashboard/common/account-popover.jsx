@@ -43,7 +43,7 @@ export default function AccountPopover() {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Logout Successfully!");
+      toast.success("Logout successful!");
     }
     if (error) {
       if ("data" in error) {

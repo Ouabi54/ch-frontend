@@ -53,7 +53,7 @@ export default function SignupView() {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Signup Successfully!");
+      toast.success("Signup successful!");
       router.push("/login");
     }
     if (error) {
