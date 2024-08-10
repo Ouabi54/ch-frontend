@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
@@ -7,6 +8,7 @@ import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
+import LinearProgress from '@mui/material/LinearProgress';
 import TablePagination from '@mui/material/TablePagination';
 
 import { usePolling } from 'src/redux/context/polling-context';
@@ -40,7 +42,11 @@ export default function UsersView() {
   const { lastRequests } = data;
 
   if (loading || !lastFriends || !lastUsers || !lastRequests) {
-    return <h1> Loading </h1>
+    return (
+      <Box sx={{ width: '100%' }}>
+        <LinearProgress />
+      </Box>
+    )
   }
 
   const handleSort = (event, id) => {
