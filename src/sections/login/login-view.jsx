@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 import { toast } from 'react-toastify';
-import { useState, useEffect } from 'react';
 import { Form, Formik, useFormik } from "formik";
+import { useRef, useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
@@ -44,6 +44,7 @@ export default function LoginView() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [login, { isSuccess, error }] = useLoginMutation();
+  const toastDisplayed = useRef({ success: false, error: false });
 
   const formik = useFormik({
     initialValues: { email: "", password: "" },
@@ -55,8 +56,9 @@ export default function LoginView() {
   });
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess  && !toastDisplayed.current.success) {
       toast.success("Login successful!");
+      toastDisplayed.current.success = true;
       startPolling();
       startSocket();
       router.push("/");
