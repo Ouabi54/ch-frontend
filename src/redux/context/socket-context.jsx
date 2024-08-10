@@ -1,19 +1,21 @@
 import PropTypes from 'prop-types';
 import { io } from 'socket.io-client';
 import { toast } from 'react-toastify';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import React, { useMemo, useState, useEffect, useContext, useCallback, createContext } from 'react';
 
 import { selectCurrentUser } from '../features/auth/authSlice';
+import { stopSocket, startSocket, selectSocketOpen } from '../features/socket/socketSlice';
 
 const SocketContext = createContext();
 
 export const useSocket = () => useContext(SocketContext);
 
 export const SocketProvider = ({ children }) => {
-  const [socket, setSocket] = useState(null);
-  const [socketOpen, setSocketOpen] = useState(false);
+  const dispatch = useDispatch();
+  const socketOpen = useSelector(selectSocketOpen);
   const currentUser = useSelector(selectCurrentUser);
+  const [socket, setSocket] = useState(null);
 
   useEffect(() => {
     // Initialize the socket connection
@@ -64,18 +66,22 @@ export const SocketProvider = ({ children }) => {
         socket.off(currentUser._id);
       };
     }
-    
-    // Explicitly return undefined if the socket isn't open or currentUser is not defined
+
     return undefined;
   }, [socket, socketOpen, currentUser]);
 
-  const startSocket = useCallback(() => setSocketOpen(true), []);
-  const stopSocket = useCallback(() => setSocketOpen(false), []);
+  const startSocketConnection = useCallback(() => {
+    dispatch(startSocket());
+  }, [dispatch]);
+
+  const stopSocketConnection = useCallback(() => {
+    dispatch(stopSocket());
+  }, [dispatch]);
 
   const contextValue = useMemo(() => ({
-    startSocket,
-    stopSocket,
-  }), [startSocket, stopSocket]);
+    startSocket: startSocketConnection,
+    stopSocket: stopSocketConnection,
+  }), [startSocketConnection, stopSocketConnection]);
 
   return (
     <SocketContext.Provider value={contextValue}>

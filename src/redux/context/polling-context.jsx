@@ -1,18 +1,18 @@
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-import React, { useMemo, useState, useContext, createContext } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import React, { useMemo, useContext, createContext } from 'react';
 
 import { selectCurrentUser } from '../features/auth/authSlice';
+import { stopPolling, startPolling, selectPollingEnabled } from '../features/polling/pollingSlice';
 import { useGetUsersQuery, useGetFriendsQuery, useGetRequestsQuery } from '../features/users/usersApi';
 
-
 const PollingContext = createContext();
-
 
 export const usePolling = () => useContext(PollingContext);
 
 export const PollingProvider = ({ children }) => {
-  const [pollingEnabled, setPollingEnabled] = useState(false);
+  const dispatch = useDispatch();
+  const pollingEnabled = useSelector(selectPollingEnabled);
   const currentUser = useSelector(selectCurrentUser);
 
   const { data: lastRequests, isLoading: isPollingRequestsLoading } = useGetRequestsQuery(undefined, {
@@ -38,15 +38,12 @@ export const PollingProvider = ({ children }) => {
     lastUsers,
   }), [lastRequests, lastFriends, lastUsers]);
 
-  const startPolling = () => setPollingEnabled(true);
-  const stopPolling = () => setPollingEnabled(false);
-
   const contextValue = useMemo(() => ({
     data: combinedData,
     loading,
-    startPolling,
-    stopPolling,
-  }), [combinedData, loading]);
+    startPolling: () => dispatch(startPolling()),
+    stopPolling: () => dispatch(stopPolling()),
+  }), [combinedData, loading, dispatch]);
 
   return (
     <PollingContext.Provider value={contextValue}>
@@ -56,5 +53,5 @@ export const PollingProvider = ({ children }) => {
 };
 
 PollingProvider.propTypes = {
-    children: PropTypes.element
+  children: PropTypes.node.isRequired,
 };

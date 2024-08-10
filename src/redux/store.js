@@ -5,19 +5,23 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit"; // This uses
 import { apiSlice } from "./features/api/apiSlice"
 import authSlice from "./features/auth/authSlice";
 import usersSlice from "./features/users/usersSlice";
+import socketSlice from './features/socket/socketSlice';
+import pollingSlice from './features/polling/pollingSlice';
 
 // Create a persist configuration
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['auth', 'data'], // List of reducers you want to persist
+    whitelist: ['auth', 'data', 'polling', 'socket'], // List of reducers you want to persist
   };
 
 // Create a persisted reducer
 const rootReducer = {
     [apiSlice.reducerPath]: apiSlice.reducer,
     auth: authSlice,
-    data: usersSlice
+    data: usersSlice,
+    polling: pollingSlice,
+    socket: socketSlice
   };
   
 const persistedReducer = persistReducer(persistConfig, combineReducers(rootReducer));
