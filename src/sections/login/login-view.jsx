@@ -56,7 +56,7 @@ export default function LoginView() {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Login Successfully!");
+      toast.success("Login successful!");
       startPolling();
       startSocket();
       router.push("/");
