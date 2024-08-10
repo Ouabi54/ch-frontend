@@ -1,5 +1,5 @@
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useState, useEffect } from 'react';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -26,7 +26,7 @@ import { emptyRows, applyFilter, getComparator } from '../utils';
 // ----------------------------------------------------------------------
 
 export default function RequestsView() {
-  const { data, loading, startPolling } = usePolling();
+  const { data, loading } = usePolling();
 
   const [page, setPage] = useState(0);
 
@@ -45,12 +45,6 @@ export default function RequestsView() {
   const currentUser = useSelector(selectCurrentUser);
 
   const { lastRequests } = data;
-
-
-  useEffect(() => {
-    startPolling();
-  }, [startPolling]);
-
 
   if (loading || !lastRequests) {
     return <h1> Loading </h1>

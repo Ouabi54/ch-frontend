@@ -18,6 +18,8 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { useRouter } from 'src/routes/hooks';
 
 import { bgGradient } from 'src/theme/css';
+import { useSocket } from 'src/redux/context/socket-context';
+import { usePolling } from 'src/redux/context/polling-context';
 import { useLoginMutation } from "src/redux/features/auth/authApi";
 
 import Logo from 'src/components/logo';
@@ -36,6 +38,8 @@ const schema = Yup.object().shape({
 export default function LoginView() {
   const theme = useTheme();
   const router = useRouter();
+  const { startPolling } = usePolling();
+  const { startSocket } = useSocket();
 
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -53,6 +57,8 @@ export default function LoginView() {
   useEffect(() => {
     if (isSuccess) {
       toast.success("Login Successfully!");
+      startPolling();
+      startSocket();
       router.push("/");
     }
     if (error) {
@@ -63,7 +69,7 @@ export default function LoginView() {
       }
     }
     setLoading(false);
-  }, [isSuccess, error, router]);
+  }, [isSuccess, error, router, startPolling, startSocket]);
 
   const { errors, touched, values, handleChange, handleSubmit } = formik;
 

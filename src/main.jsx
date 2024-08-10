@@ -11,6 +11,8 @@ import { PollingProvider } from 'src/redux/context/polling-context';
 
 import App from './app';
 import { store, persistor } from "./redux/store";
+import { SocketProvider } from './redux/context/socket-context';
+
 
 // ----------------------------------------------------------------------
 
@@ -20,14 +22,16 @@ root.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <PollingProvider>
-        <HelmetProvider>
-          <BrowserRouter>
-            <Suspense>
-              <App />
-            </Suspense>
-          </BrowserRouter>
-        </HelmetProvider>
-      </PollingProvider>
+        <SocketProvider>
+            <HelmetProvider>
+              <BrowserRouter>
+                <Suspense>
+                  <App />
+                </Suspense>
+              </BrowserRouter>
+            </HelmetProvider>
+          </SocketProvider>
+        </PollingProvider>
       <ToastContainer />
     </PersistGate>
   </Provider>

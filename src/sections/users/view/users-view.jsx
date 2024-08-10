@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -23,7 +23,7 @@ import { emptyRows, applyFilter, getComparator } from '../utils';
 // ----------------------------------------------------------------------
 
 export default function UsersView() {
-  const { data, loading, startPolling } = usePolling();
+  const { data, loading } = usePolling();
 
   const [page, setPage] = useState(0);
 
@@ -34,10 +34,6 @@ export default function UsersView() {
   const [filterName, setFilterName] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  useEffect(() => {
-    startPolling();
-  }, [startPolling]);
 
   const { lastUsers } = data;
   const { lastFriends } = data;

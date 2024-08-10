@@ -12,6 +12,7 @@ import IconButton from '@mui/material/IconButton';
 
 import { useRouter } from 'src/routes/hooks';
 
+import { useSocket } from 'src/redux/context/socket-context';
 import { usePolling } from 'src/redux/context/polling-context';
 import { useLogoutMutation } from 'src/redux/features/auth/authApi';
 import { selectCurrentUser } from 'src/redux/features/auth/authSlice';
@@ -20,6 +21,8 @@ import { selectCurrentUser } from 'src/redux/features/auth/authSlice';
 
 export default function AccountPopover() {
   const { stopPolling } = usePolling();
+ const { stopSocket } = useSocket();
+
   const [open, setOpen] = useState(null);
 
   const [logout, { isSuccess, error }] = useLogoutMutation();
@@ -36,8 +39,9 @@ export default function AccountPopover() {
 
   const handleLogout = async () => {
     router.push("/login");
-    stopPolling();
     await logout();
+    stopPolling();
+    stopSocket();
   };
 
 
