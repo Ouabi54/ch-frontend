@@ -100,9 +100,9 @@ export default function UsersView() {
                 onRequestSort={handleSort}
                 headLabel={[
                   { id: 'id', label: 'Id' },
-                  { id: 'email', label: 'Email' },
-                  { id: 'status', label: 'Status' },
-                  { id: 'actions', label: 'Actions' },
+                  { id: 'email', label: 'Email'}, 
+                  { id: 'status', label: 'Status'},
+                  { id: 'actions', label: 'Actions'},
                 ]}
               />
               <TableBody>

@@ -71,18 +71,18 @@ export default function UserTableRow({
 
         <TableCell>
           <Label color={isFriend ? 'success' : 'error'}>
-            {isFriend ? 'Friend' : 'Not A Friend'}
+            {isFriend ? 'Friend' : 'Not friend'}
           </Label>
         </TableCell>
 
         <TableCell>
           {
             isFriend ? 
-              <LoadingButton onClick={onRemoveFriendClick} loading={removeFriendLoading}  variant="contained" color='error'>
+              <LoadingButton style={{minWidth:125}} onClick={onRemoveFriendClick} loading={removeFriendLoading}  variant="contained" color='error'>
                 Delete
               </LoadingButton>
             : 
-            <LoadingButton onClick={onSendRequestClick} loading={sendRequestLoading} variant="contained" color="success" disabled={isSendDisabled}>
+            <LoadingButton style={{minWidth:125}} onClick={onSendRequestClick} loading={sendRequestLoading} variant="contained" color="success" disabled={isSendDisabled}>
               Send request
             </LoadingButton>
           }

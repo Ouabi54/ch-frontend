@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import LoadingButton from '@mui/lab/LoadingButton';
+import ButtonGroup from '@mui/material/ButtonGroup';
 
 import { useAcceptRequestMutation, useCancelRequestMutation, useRejectRequestMutation } from 'src/redux/features/users/usersApi';
 
@@ -92,14 +93,14 @@ export default function RequestTableRow({
   const renderActions = () => {
     if(type === 'RECEIVED' && status === 'PENDING' && target === 'YOU')
     return (
-      <>
+      <ButtonGroup variant="contained" aria-label="Action">
         <LoadingButton loading={acceptRequestLoading} onClick={onAcceptRequestClick} variant="contained" color="success">
           Accept
         </LoadingButton>
         <LoadingButton loading={rejectRequestLoading} onClick={onRejectRequestClick} variant="contained" color="error">
           Reject
         </LoadingButton>
-      </>
+      </ButtonGroup>
     )
   if(type === 'SENT' && status === 'PENDING' && sender === 'YOU')
     return (

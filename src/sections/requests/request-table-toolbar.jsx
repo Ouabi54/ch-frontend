@@ -42,11 +42,11 @@ export default function RequestTableToolbar({ filterName, filterType, onFilterNa
           onFilterStatus(newType) 
         }}
       >
+        <ToggleButton value="ALL">All</ToggleButton>
         <ToggleButton value="PENDING">Pending</ToggleButton>
         <ToggleButton value="CANCELED">Canceled</ToggleButton>
         <ToggleButton value="ACCEPTED">Accepted</ToggleButton>
         <ToggleButton value="REJECTED">Rejected</ToggleButton>
-        <ToggleButton value="ALL">All</ToggleButton>
       </ToggleButtonGroup>
 
       <ToggleButtonGroup
@@ -58,12 +58,10 @@ export default function RequestTableToolbar({ filterName, filterType, onFilterNa
           onFilterType(newType) 
         }}
       >
+        <ToggleButton value="ALL">All</ToggleButton>
         <ToggleButton value="SENT">Sent</ToggleButton>
         <ToggleButton value="RECEIVED">Received</ToggleButton>
-        <ToggleButton value="ALL">All</ToggleButton>
       </ToggleButtonGroup>
-
-
     </Toolbar>
   );
 }

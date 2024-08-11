@@ -40,7 +40,7 @@ export default function RequestsView() {
 
   const [filterType, setFilterType] = useState('ALL');
 
-  const [filterStatus, setFilterStatus] = useState('ALL');
+  const [filterStatus, setFilterStatus] = useState('PENDING');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
