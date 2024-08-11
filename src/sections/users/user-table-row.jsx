@@ -6,7 +6,8 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import LoadingButton from '@mui/lab/LoadingButton';
 
- import { useSendRequestMutation, useRemoveFriendMutation } from 'src/redux/features/users/usersApi';
+ import { usePolling } from 'src/redux/context/polling-context';
+import { useSendRequestMutation, useRemoveFriendMutation } from 'src/redux/features/users/usersApi';
 
 import Label from 'src/components/label';
 
@@ -18,6 +19,7 @@ export default function UserTableRow({
   isFriend,
   isSendDisabled
 }) {
+  const { refetchAll } = usePolling();
   const [sendRequest, { isSuccess: isSendRequestSuccess, error: sendRequestError }] = useSendRequestMutation();
   const [removeFriend, { isSuccess: isRemoveFriendSuccess, error: removeFriendError }] = useRemoveFriendMutation();
   const [sendRequestLoading, setSendRequestLoading] = useState(false);
@@ -35,6 +37,7 @@ export default function UserTableRow({
 
   useEffect(() => {
     if (isRemoveFriendSuccess) {
+      refetchAll();
       toast.success("Friend has been removed!");
     }
     if (removeFriendError) {
@@ -46,10 +49,11 @@ export default function UserTableRow({
     setTimeout(() => {
       setRemoveFriendLoading(false);
     }, 3000);
-  }, [isRemoveFriendSuccess, removeFriendError]);
+  }, [isRemoveFriendSuccess, removeFriendError, refetchAll]);
 
   useEffect(() => {
     if (isSendRequestSuccess) {
+      refetchAll();
       toast.success("The request has been sent!");
     }
     if (sendRequestError) {
@@ -61,7 +65,7 @@ export default function UserTableRow({
     setTimeout(() => {
       setSendRequestLoading(false);
     }, 3000);
-  }, [isSendRequestSuccess, sendRequestError]);
+  }, [isSendRequestSuccess, sendRequestError, refetchAll]);
 
   return (
     <TableRow hover tabIndex={-1} role="checkbox">

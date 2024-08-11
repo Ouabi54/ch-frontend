@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import React, { useMemo, useContext, createContext } from 'react';
+import React, { useMemo, useContext, useCallback, createContext } from 'react';
 
 import { selectCurrentUser } from '../features/auth/authSlice';
 import { stopPolling, startPolling, selectPollingEnabled } from '../features/polling/pollingSlice';
@@ -15,22 +15,28 @@ export const PollingProvider = ({ children }) => {
   const pollingEnabled = useSelector(selectPollingEnabled);
   const currentUser = useSelector(selectCurrentUser);
 
-  const { data: lastRequests, isLoading: isPollingRequestsLoading } = useGetRequestsQuery(undefined, {
+  const { data: lastRequests, isLoading: isPollingRequestsLoading, refetch: refetchRequests } = useGetRequestsQuery(undefined, {
     skip: !pollingEnabled || !currentUser,
     pollingInterval: 3000,
   });
 
-  const { data: lastUsers, isLoading: isPollingUsersLoading } = useGetUsersQuery(undefined, {
+  const { data: lastUsers, isLoading: isPollingUsersLoading, refetch: refetchUsers } = useGetUsersQuery(undefined, {
     skip: !pollingEnabled || !currentUser,
     pollingInterval: 3000,
   }); 
 
-  const { data: lastFriends, isLoading: isPollingFriendsLoading } =  useGetFriendsQuery(undefined, {
+  const { data: lastFriends, isLoading: isPollingFriendsLoading, refetch: refetchFriends } =  useGetFriendsQuery(undefined, {
     skip: !pollingEnabled || !currentUser,
     pollingInterval: 3000,
   }); 
 
   const loading =  isPollingRequestsLoading || isPollingUsersLoading || isPollingFriendsLoading;
+
+  const refetchAll = useCallback(()=> {
+    refetchRequests();
+    refetchUsers();
+    refetchFriends();
+  }, [refetchFriends, refetchUsers, refetchRequests]);
 
   const combinedData = useMemo(() => ({
     lastRequests,
@@ -43,7 +49,8 @@ export const PollingProvider = ({ children }) => {
     loading,
     startPolling: () => dispatch(startPolling()),
     stopPolling: () => dispatch(stopPolling()),
-  }), [combinedData, loading, dispatch]);
+    refetchAll,
+  }), [combinedData, loading, dispatch, refetchAll]);
 
   return (
     <PollingContext.Provider value={contextValue}>

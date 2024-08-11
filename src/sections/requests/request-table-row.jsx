@@ -7,6 +7,7 @@ import TableCell from '@mui/material/TableCell';
 import LoadingButton from '@mui/lab/LoadingButton';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
+import { usePolling } from 'src/redux/context/polling-context';
 import { useAcceptRequestMutation, useCancelRequestMutation, useRejectRequestMutation } from 'src/redux/features/users/usersApi';
 
 // ----------------------------------------------------------------------
@@ -19,7 +20,7 @@ export default function RequestTableRow({
   date,
   type
 }) {
-
+  const { refetchAll } = usePolling();
   const [cancelRequest, { isSuccess: isCancelRequestSuccess, error: cancelRequestError }] = useCancelRequestMutation();
   const [acceptRequest, { isSuccess: isAcceptRequestSuccess, error: acceptRequestError }] = useAcceptRequestMutation();
   const [rejectRequest, { isSuccess: isRejectRequestSuccess, error: rejectRequestError }] = useRejectRequestMutation();
@@ -45,6 +46,7 @@ export default function RequestTableRow({
 
   useEffect(() => {
     if (isRejectRequestSuccess) {
+      refetchAll();
       toast.success("The request has been rejected!");
     }
     if (rejectRequestError) {
@@ -56,11 +58,12 @@ export default function RequestTableRow({
     setTimeout(() => {
       setRejectRequestLoading(false);
     }, 3000);
-  }, [isRejectRequestSuccess, rejectRequestError]);
+  }, [isRejectRequestSuccess, rejectRequestError, refetchAll]);
 
 
   useEffect(() => {
     if (isAcceptRequestSuccess) {
+      refetchAll();
       toast.success("The request has been accepted!");
     }
     if (acceptRequestError) {
@@ -72,10 +75,11 @@ export default function RequestTableRow({
     setTimeout(() => {
       setAcceptRequestLoading(false);
     }, 3000);
-  }, [isAcceptRequestSuccess, acceptRequestError]);
+  }, [isAcceptRequestSuccess, acceptRequestError, refetchAll]);
 
   useEffect(() => {
     if (isCancelRequestSuccess) {
+      refetchAll();
       toast.success("The request has been canceled!");
     }
     if (cancelRequestError) {
@@ -87,7 +91,7 @@ export default function RequestTableRow({
     setTimeout(() => {
       setCancelRequestLoading(false);
     }, 3000);
-  }, [isCancelRequestSuccess, cancelRequestError]);
+  }, [isCancelRequestSuccess, cancelRequestError, refetchAll]);
 
 
   const renderActions = () => {
