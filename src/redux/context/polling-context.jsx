@@ -17,17 +17,17 @@ export const PollingProvider = ({ children }) => {
 
   const { data: lastRequests, isLoading: isPollingRequestsLoading, refetch: refetchRequests } = useGetRequestsQuery(undefined, {
     skip: !pollingEnabled || !currentUser,
-    pollingInterval: 3000,
+   //  pollingInterval: 3000,
   });
 
   const { data: lastUsers, isLoading: isPollingUsersLoading, refetch: refetchUsers } = useGetUsersQuery(undefined, {
     skip: !pollingEnabled || !currentUser,
-    pollingInterval: 3000,
+    // pollingInterval: 3000,
   }); 
 
   const { data: lastFriends, isLoading: isPollingFriendsLoading, refetch: refetchFriends } =  useGetFriendsQuery(undefined, {
     skip: !pollingEnabled || !currentUser,
-    pollingInterval: 3000,
+    // pollingInterval: 3000,
   }); 
 
   const loading =  isPollingRequestsLoading || isPollingUsersLoading || isPollingFriendsLoading;

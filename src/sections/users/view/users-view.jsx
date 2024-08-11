@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -25,7 +25,7 @@ import { emptyRows, applyFilter, getComparator } from '../utils';
 // ----------------------------------------------------------------------
 
 export default function UsersView() {
-  const { data, loading } = usePolling();
+  const { data, loading, refetchAll } = usePolling();
 
   const [page, setPage] = useState(0);
 
@@ -40,6 +40,10 @@ export default function UsersView() {
   const { lastUsers } = data;
   const { lastFriends } = data;
   const { lastRequests } = data;
+
+  useEffect(()=> {
+    refetchAll();
+  }, [refetchAll])
 
   if (loading || !lastFriends || !lastUsers || !lastRequests) {
     return (

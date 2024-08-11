@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { useSelector, useDispatch } from 'react-redux';
 import React, { useMemo, useState, useEffect, useContext, useCallback, createContext } from 'react';
 
+import { usePolling } from './polling-context';
 import { selectCurrentUser } from '../features/auth/authSlice';
 import { stopSocket, startSocket, selectSocketOpen } from '../features/socket/socketSlice';
 
@@ -12,6 +13,7 @@ const SocketContext = createContext();
 export const useSocket = () => useContext(SocketContext);
 
 export const SocketProvider = ({ children }) => {
+  const { refetchAll } = usePolling();
   const dispatch = useDispatch();
   const socketOpen = useSelector(selectSocketOpen);
   const currentUser = useSelector(selectCurrentUser);
@@ -53,10 +55,20 @@ export const SocketProvider = ({ children }) => {
           case 'ACCEPT_FRIEND_REQUEST':
             toast.success(`${msg.email} accepted your invite!`);
             break;
+          case 'REJECT_FRIEND_REQUEST':
+            toast.error(`${msg.email} rejected your invite!`);
+            break;
+          case 'CANCEL_FRIEND_REQUEST':
+            toast.error(`${msg.email} canceled his invite!`);
+            break;
+          case 'DELETE_FRIEND':
+            toast.error(`${msg.email} deleted friendship!`);
+            break;
           default:
             // no default action
             break;
         }
+        refetchAll();
       });
 
       // Return cleanup function
@@ -68,7 +80,7 @@ export const SocketProvider = ({ children }) => {
     }
 
     return undefined;
-  }, [socket, socketOpen, currentUser]);
+  }, [socket, socketOpen, currentUser, refetchAll]);
 
   const startSocketConnection = useCallback(() => {
     dispatch(startSocket());
