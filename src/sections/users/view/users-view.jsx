@@ -82,7 +82,7 @@ export default function UsersView() {
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">Users</Typography>
+        <Typography variant="h4">USERS</Typography>
       </Stack>
 
       <Card>

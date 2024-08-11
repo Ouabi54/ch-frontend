@@ -40,7 +40,7 @@ export default function RequestsView() {
 
   const [filterType, setFilterType] = useState('ALL');
 
-  const [filterStatus, setFilterStatus] = useState('PENDING');
+  const [filterStatus, setFilterStatus] = useState('ALL');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -102,7 +102,7 @@ export default function RequestsView() {
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">Requests</Typography>
+        <Typography variant="h4" style={{textTransform: 'uppercase'}}>{filterStatus} Requests</Typography>
       </Stack>
 
       <Card>
