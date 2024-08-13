@@ -7,6 +7,7 @@ import TableCell from '@mui/material/TableCell';
 import LoadingButton from '@mui/lab/LoadingButton';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
+import { RequestType, RequestStatus } from 'src/constants';
 import { usePolling } from 'src/redux/context/polling-context';
 import { useAcceptRequestMutation, useCancelRequestMutation, useRejectRequestMutation } from 'src/redux/features/users/usersApi';
 
@@ -95,7 +96,7 @@ export default function RequestTableRow({
 
 
   const renderActions = () => {
-    if(type === 'RECEIVED' && status === 'PENDING' && target === 'YOU')
+    if(type === RequestType.RECEIVED && status === RequestStatus.PENDING && target === 'YOU')
     return (
       <ButtonGroup variant="contained" aria-label="Action">
         <LoadingButton loading={acceptRequestLoading} onClick={onAcceptRequestClick} variant="contained" color="success">
@@ -106,7 +107,7 @@ export default function RequestTableRow({
         </LoadingButton>
       </ButtonGroup>
     )
-  if(type === 'SENT' && status === 'PENDING' && sender === 'YOU')
+  if(type === RequestType.SENT && status === RequestStatus.PENDING && sender === 'YOU')
     return (
       <LoadingButton loading={cancelRequestLoading} onClick={onCancelRequestClick} variant="contained" color="error">
         Cancel

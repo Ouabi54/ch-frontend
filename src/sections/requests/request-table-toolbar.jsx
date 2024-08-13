@@ -6,6 +6,8 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
+import { RequestType, RequestStatus } from 'src/constants';
+
 import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
@@ -42,11 +44,11 @@ export default function RequestTableToolbar({ filterName, filterType, onFilterNa
           onFilterStatus(newType) 
         }}
       >
-        <ToggleButton value="ALL">All</ToggleButton>
-        <ToggleButton value="PENDING">Pending</ToggleButton>
-        <ToggleButton value="CANCELED">Canceled</ToggleButton>
-        <ToggleButton value="ACCEPTED">Accepted</ToggleButton>
-        <ToggleButton value="REJECTED">Rejected</ToggleButton>
+        <ToggleButton value={RequestStatus.ALL}>All</ToggleButton>
+        <ToggleButton value={RequestStatus.PENDING}>Pending</ToggleButton>
+        <ToggleButton value={RequestStatus.CANCELED}>Canceled</ToggleButton>
+        <ToggleButton value={RequestStatus.ACCEPTED}>Accepted</ToggleButton>
+        <ToggleButton value={RequestStatus.REJECTED}>Rejected</ToggleButton>
       </ToggleButtonGroup>
 
       <ToggleButtonGroup
@@ -58,9 +60,9 @@ export default function RequestTableToolbar({ filterName, filterType, onFilterNa
           onFilterType(newType) 
         }}
       >
-        <ToggleButton value="ALL">All</ToggleButton>
-        <ToggleButton value="SENT">Sent</ToggleButton>
-        <ToggleButton value="RECEIVED">Received</ToggleButton>
+        <ToggleButton value={RequestType.ALL}>All</ToggleButton>
+        <ToggleButton value={RequestType.SENT}>Sent</ToggleButton>
+        <ToggleButton value={RequestType.RECEIVED}>Received</ToggleButton>
       </ToggleButtonGroup>
     </Toolbar>
   );

@@ -12,6 +12,7 @@ import TableContainer from '@mui/material/TableContainer';
 import LinearProgress from '@mui/material/LinearProgress';
 import TablePagination from '@mui/material/TablePagination';
 
+import { RequestType, RequestStatus } from 'src/constants';
 import { usePolling } from 'src/redux/context/polling-context';
 import { selectCurrentUser } from 'src/redux/features/auth/authSlice';
 
@@ -38,9 +39,9 @@ export default function RequestsView() {
 
   const [filterName, setFilterName] = useState('');
 
-  const [filterType, setFilterType] = useState('ALL');
+  const [filterType, setFilterType] = useState(RequestType.ALL);
 
-  const [filterStatus, setFilterStatus] = useState('ALL');
+  const [filterStatus, setFilterStatus] = useState(RequestStatus.ALL);
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 

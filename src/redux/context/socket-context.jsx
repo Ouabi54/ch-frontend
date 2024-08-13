@@ -4,6 +4,8 @@ import { toast } from 'react-toastify';
 import { useSelector, useDispatch } from 'react-redux';
 import React, { useMemo, useState, useEffect, useContext, useCallback, createContext } from 'react';
 
+import { SocketEvent } from 'src/constants';
+
 import { usePolling } from './polling-context';
 import { selectCurrentUser } from '../features/auth/authSlice';
 import { stopSocket, startSocket, selectSocketOpen } from '../features/socket/socketSlice';
@@ -49,19 +51,19 @@ export const SocketProvider = ({ children }) => {
 
       socket.on(currentUser._id, (msg) => {
         switch (msg.type) {
-          case 'NEW_FRIEND_REQUEST':
+          case SocketEvent.NEW_FRIEND_REQUEST:
             toast.success(`${msg.email} sent you an invite!`);
             break;
-          case 'ACCEPT_FRIEND_REQUEST':
+          case SocketEvent.ACCEPT_FRIEND_REQUEST:
             toast.success(`${msg.email} accepted your invite!`);
             break;
-          case 'REJECT_FRIEND_REQUEST':
+          case SocketEvent.REJECT_FRIEND_REQUEST:
             toast.error(`${msg.email} rejected your invite!`);
             break;
-          case 'CANCEL_FRIEND_REQUEST':
+          case SocketEvent.CANCEL_FRIEND_REQUEST:
             toast.error(`${msg.email} canceled his invite!`);
             break;
-          case 'DELETE_FRIEND':
+          case SocketEvent.DELETE_FRIEND:
             toast.error(`${msg.email} deleted friendship!`);
             break;
           default:
